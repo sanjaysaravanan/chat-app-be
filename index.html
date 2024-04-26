@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <textarea></textarea>
+  <input type="text" />
+  <button onclick="sendMsg()" >Click ME</button>
+  <script>
+    const ws = new WebSocket("ws://192.168.73.15:5000");
+
+    ws.addEventListener('open', () => {
+      console.log("We are connected!");
+    });
+
+    const inp = document.querySelector('input');
+    const txtArea = document.querySelector('textarea');
+    const sendMsg = () => {
+      const msg = inp.value;
+      ws.send(msg);
+      inp.value = ""
+    }
+
+    ws.onmessage = (e) => {
+      console.log(e.data);
+      txtArea.value = txtArea.value + '\n' + e.data;
+    }
+    
+  </script>
+</body>
+</html>
